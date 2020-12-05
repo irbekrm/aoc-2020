@@ -42,11 +42,7 @@ type passwd struct {
 }
 
 func (p *passwd) isValidTobbogan() bool {
-	fmt.Printf("required: %s min: %d max %d content %v\n", string(p.req), p.min, p.max, string(p.content))
-	valid := p.content[p.min-1] == p.req && !(p.content[p.max-1] == p.req) || !(p.content[p.min-1] == p.req) && (p.content[p.max-1] == p.req)
-	fmt.Println(valid)
-	fmt.Println()
-	return valid
+	return p.content[p.min-1] == p.req && !(p.content[p.max-1] == p.req) || !(p.content[p.min-1] == p.req) && (p.content[p.max-1] == p.req)
 }
 
 func (p *passwd) isValidSled() bool {
