@@ -13,7 +13,7 @@ func Three() {
 	if err != nil {
 		log.Fatalf("error reading input data: %v", err)
 	}
-	s := split(b)
+	s := split(b, "\n")
 	mtrx := newMatrix(s)
 	// traverse 1 1
 	x := mtrx.traverse(1, 1)

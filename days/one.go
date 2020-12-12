@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"regexp"
 	"sort"
 	"strconv"
-	"strings"
 )
 
 func One() {
@@ -14,7 +14,7 @@ func One() {
 	if err != nil {
 		log.Fatalf("error reading input data: %v", err)
 	}
-	s := split(b)
+	s := split(b, "\n")
 	ints, err := toInts(s)
 	if err != nil {
 		log.Fatalf("error converting input into integers: %v", err)
@@ -70,8 +70,9 @@ func trippleSum2020(ints []int) (bool, int, int, int) {
 	return false, 0, 0, 0
 }
 
-func split(b []byte) []string {
-	return strings.Split(string(b), "\n")
+func split(input []byte, sep string) []string {
+	re := regexp.MustCompile(sep)
+	return re.Split(string(input), -1)
 }
 
 func toInts(s []string) ([]int, error) {

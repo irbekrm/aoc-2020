@@ -17,7 +17,7 @@ func Two() {
 	if err != nil {
 		log.Fatalf("error reading input data: %v", err)
 	}
-	s := split(b)
+	s := split(b, "\n")
 	passwds := make([]*passwd, len(s))
 	for k, v := range s {
 		passwd, err := stringToPasswd(v)
