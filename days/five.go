@@ -19,16 +19,36 @@ func Five() {
 	bp := parsePasses(s)
 	highest := highestIndex(bp)
 	fmt.Printf("highest seat ID: %d\n", highest)
+	fmt.Printf("my seat id: %d\n", findEmptySeat(bp))
+}
+
+func findEmptySeat(boardingPasses map[int]*boardingPass) int {
+	for i := 0; i < 128; i++ {
+		for j := 0; j < 8; j++ {
+			bp := boardingPass{j, i}
+			id := bp.calcId()
+			if boardingPasses[id] == nil {
+				if boardingPasses[id+1] != nil && boardingPasses[id-1] != nil {
+					return id
+				}
+			}
+		}
+	}
+	return -1
 }
 
 type boardingPass struct {
-	row, column, id int
+	column, row int
 }
 
-func parsePasses(s []string) []boardingPass {
-	boardingPasses := make([]boardingPass, len(s))
-	for key, val := range s {
-		bp := boardingPass{}
+func (bp *boardingPass) calcId() int {
+	return bp.row*8 + bp.column
+}
+
+func parsePasses(s []string) map[int]*boardingPass {
+	boardingPasses := make(map[int]*boardingPass, len(s))
+	for _, val := range s {
+		bp := &boardingPass{}
 		runes := []rune(val)
 		firstIndex, lastIndex := 0, 127
 		for i := 0; i < 7; i++ {
@@ -50,17 +70,17 @@ func parsePasses(s []string) []boardingPass {
 			}
 		}
 		bp.column = firstIndex
-		bp.id = bp.row*8 + bp.column
-		boardingPasses[key] = bp
+		id := bp.calcId()
+		boardingPasses[id] = bp
 	}
 	return boardingPasses
 }
 
-func highestIndex(bp []boardingPass) int {
+func highestIndex(bp map[int]*boardingPass) int {
 	highest := -1
-	for _, val := range bp {
-		if val.id > highest {
-			highest = val.id
+	for key := range bp {
+		if key > highest {
+			highest = key
 		}
 	}
 	return highest
