@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/irbekrm/aoc-2020/days"
-)
+import "github.com/irbekrm/aoc-2020/days"
 
 func main() {
 	// days.One()
@@ -10,5 +8,6 @@ func main() {
 	// days.Three()
 	// days.Four()
 	// days.Five()
-	days.Six()
+	// days.Six()
+	days.Seven()
 }
