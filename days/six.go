@@ -14,26 +14,44 @@ func Six() {
 	}
 	s := split(b, "\n\n")
 	forms := parseForms(s)
-	fmt.Printf("sum is %d\n", countAnswers(forms))
+	fmt.Printf("sum is %d\n", countEveryonesAnswers(forms))
 }
 
-func countAnswers(forms []map[rune]int) int {
+func countAnswers(forms []*form) int {
 	var sum int
 	for _, f := range forms {
-		sum += len(f)
+		sum += len(f.forms)
 	}
 	return sum
 }
 
-func parseForms(s []string) []map[rune]int {
-	forms := make([]map[rune]int, len(s))
+func countEveryonesAnswers(forms []*form) int {
+	var sum int
+	for _, f := range forms {
+		for _, val := range f.forms {
+			if val == f.groupSize {
+				sum++
+			}
+		}
+	}
+	return sum
+}
+
+type form struct {
+	forms     map[rune]int
+	groupSize int
+}
+
+func parseForms(s []string) []*form {
+	forms := make([]*form, len(s))
 	for key, val := range s {
 		m := make(map[rune]int)
+		numOfGroups := strings.Count(val, "\n") + 1
 		chars := strings.ReplaceAll(val, "\n", "")
 		for _, ch := range chars {
 			m[ch]++
 		}
-		forms[key] = m
+		forms[key] = &form{m, numOfGroups}
 	}
 	return forms
 }
